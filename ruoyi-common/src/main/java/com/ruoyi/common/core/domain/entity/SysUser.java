@@ -15,7 +15,7 @@ import com.ruoyi.common.xss.Xss;
 
 /**
  * 用户对象 sys_user
- * 
+ *
  * @author ruoyi
  */
 public class SysUser extends BaseEntity
@@ -101,10 +101,21 @@ public class SysUser extends BaseEntity
     /** 岗位组 */
     private Long[] postIds;
 
+
+    private String amount;
     public SysUser()
     {
 
     }
+
+   /* @DecimalMin(value = "0.01",message = "金额不得小于0.01元")
+    public String getAmount() {
+        return amount;
+    }
+
+    public void setAmount(String amount) {
+        this.amount = amount;
+    } */
 
     public SysUser(Long userId)
     {

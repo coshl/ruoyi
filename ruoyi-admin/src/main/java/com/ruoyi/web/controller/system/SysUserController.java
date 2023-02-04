@@ -37,7 +37,7 @@ import com.ruoyi.system.service.ISysUserService;
 
 /**
  * 用户信息
- * 
+ *
  * @author ruoyi
  */
 @Controller
@@ -51,7 +51,7 @@ public class SysUserController extends BaseController
 
     @Autowired
     private ISysRoleService roleService;
-    
+
     @Autowired
     private ISysDeptService deptService;
 
@@ -134,7 +134,7 @@ public class SysUserController extends BaseController
         {
             return error("新增用户'" + user.getLoginName() + "'失败，登录账号已存在");
         }
-        else if (StringUtils.isNotEmpty(user.getPhonenumber())
+        /*else if (StringUtils.isNotEmpty(user.getPhonenumber())
                 && UserConstants.USER_PHONE_NOT_UNIQUE.equals(userService.checkPhoneUnique(user)))
         {
             return error("新增用户'" + user.getLoginName() + "'失败，手机号码已存在");
@@ -143,7 +143,7 @@ public class SysUserController extends BaseController
                 && UserConstants.USER_EMAIL_NOT_UNIQUE.equals(userService.checkEmailUnique(user)))
         {
             return error("新增用户'" + user.getLoginName() + "'失败，邮箱账号已存在");
-        }
+        }*/
         user.setSalt(ShiroUtils.randomSalt());
         user.setPassword(passwordService.encryptPassword(user.getLoginName(), user.getPassword(), user.getSalt()));
         user.setCreateBy(getLoginName());
@@ -324,7 +324,7 @@ public class SysUserController extends BaseController
 
     /**
      * 选择部门树
-     * 
+     *
      * @param deptId 部门ID
      */
     @RequiresPermissions("system:user:list")
