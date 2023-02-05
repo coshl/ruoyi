@@ -36,11 +36,12 @@ public class SysRegisterService
     {
         String msg = "", loginName = user.getLoginName(), password = user.getPassword();
 
-        if (ShiroConstants.CAPTCHA_ERROR.equals(ServletUtils.getRequest().getAttribute(ShiroConstants.CURRENT_CAPTCHA)))
-        {
-            msg = "验证码错误";
-        }
-        else if (StringUtils.isEmpty(loginName))
+//        if (ShiroConstants.CAPTCHA_ERROR.equals(ServletUtils.getRequest().getAttribute(ShiroConstants.CURRENT_CAPTCHA)))
+//        {
+//            msg = "验证码错误";
+//        }
+//        else
+        if (StringUtils.isEmpty(loginName))
         {
             msg = "用户名不能为空";
         }
