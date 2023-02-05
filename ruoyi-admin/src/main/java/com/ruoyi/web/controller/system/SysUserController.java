@@ -171,6 +171,19 @@ public class SysUserController extends BaseController
         return prefix + "/edit";
     }
 
+
+    /**
+     * 公债充值
+     */
+    @RequiresPermissions("system:user:gzedit")
+    @GetMapping("/gzedit/{userId}")
+    public String gzedit(@PathVariable("userId") Long userId, ModelMap mmap)
+    {
+        userService.checkUserDataScope(userId);
+        mmap.put("user", userService.selectUserById(userId));
+        return prefix + "/gzedit";
+    }
+
     /**
      * 修改保存用户
      */
