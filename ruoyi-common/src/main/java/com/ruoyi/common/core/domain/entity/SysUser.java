@@ -12,6 +12,7 @@ import com.ruoyi.common.annotation.Excel.Type;
 import com.ruoyi.common.annotation.Excels;
 import com.ruoyi.common.core.domain.BaseEntity;
 import com.ruoyi.common.xss.Xss;
+import org.apache.poi.hpsf.Decimal;
 
 /**
  * 用户对象 sys_user
@@ -102,20 +103,40 @@ public class SysUser extends BaseEntity
     private Long[] postIds;
 
 
-    private String amount;
+    private Long apiAmount;
+
+    private String roleName;
+
+    private String apiKey;
+
     public SysUser()
     {
 
     }
 
-   /* @DecimalMin(value = "0.01",message = "金额不得小于0.01元")
-    public String getAmount() {
-        return amount;
+    public Long getApiAmount() {
+        return apiAmount;
     }
 
-    public void setAmount(String amount) {
-        this.amount = amount;
-    } */
+    public void setApiAmount(Long apiAmount) {
+        this.apiAmount = apiAmount;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
+
+    public String getApiKey() {
+        return apiKey;
+    }
+
+    public void setApiKey(String apiKey) {
+        this.apiKey = apiKey;
+    }
 
     public SysUser(Long userId)
     {

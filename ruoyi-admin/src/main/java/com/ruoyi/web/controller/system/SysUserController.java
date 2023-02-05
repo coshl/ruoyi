@@ -144,9 +144,15 @@ public class SysUserController extends BaseController
         {
             return error("新增用户'" + user.getLoginName() + "'失败，邮箱账号已存在");
         }*/
+        Long role = user.getRoleIds()[0];
+        if (!getSysUser().isAdmin() &&  role != 2)
+        {
+            return error("新增用户'" + user.getLoginName() + "'失败，无权限添加管理员");
+        }
         user.setSalt(ShiroUtils.randomSalt());
         user.setPassword(passwordService.encryptPassword(user.getLoginName(), user.getPassword(), user.getSalt()));
         user.setCreateBy(getLoginName());
+        user.setRoleName(roleService.selectRoleById(role).getRoleName());
         return toAjax(userService.insertUser(user));
     }
 

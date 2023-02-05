@@ -212,6 +212,7 @@ public class SysUserServiceImpl implements ISysUserService
     @Transactional
     public int insertUser(SysUser user)
     {
+
         // 新增用户信息
         int rows = userMapper.insertUser(user);
         // 新增用户岗位关联
