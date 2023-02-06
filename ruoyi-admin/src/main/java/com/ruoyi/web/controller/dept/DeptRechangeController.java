@@ -50,6 +50,9 @@ public class DeptRechangeController extends BaseController
     public TableDataInfo list(DeptRechange deptRechange)
     {
         startPage();
+        if(!getSysUser().isAdmin()){
+            deptRechange.setUserId(getSysUser().getUserId());
+        }
         List<DeptRechange> list = deptRechangeService.selectDeptRechangeList(deptRechange);
         return getDataTable(list);
     }
@@ -86,6 +89,7 @@ public class DeptRechangeController extends BaseController
     @ResponseBody
     public AjaxResult addSave(DeptRechange deptRechange)
     {
+        deptRechange.setRechangeName(getSysUser().getLoginName());
         return toAjax(deptRechangeService.insertDeptRechange(deptRechange));
     }
 

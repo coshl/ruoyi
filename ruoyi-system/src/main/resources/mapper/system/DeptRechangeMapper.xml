@@ -18,7 +18,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectDeptRechangeList" parameterType="DeptRechange" resultMap="DeptRechangeResult">
         <include refid="selectDeptRechangeVo"/>
-        <where>  
+        <where>
             <if test="userId != null "> and user_id = #{userId}</if>
             <if test="rechangeName != null  and rechangeName != ''"> and rechange_name like concat('%', #{rechangeName}, '%')</if>
             <if test="rechangeAmount != null "> and rechange_amount = #{rechangeAmount}</if>
@@ -30,20 +30,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectDeptRechangeVo"/>
         where id = #{id}
     </select>
-        
+    
     <insert id="insertDeptRechange" parameterType="DeptRechange" useGeneratedKeys="true" keyProperty="id">
         insert into dept_rechange
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="userId != null">user_id,</if>
             <if test="rechangeName != null">rechange_name,</if>
             <if test="rechangeAmount != null">rechange_amount,</if>
-            <if test="rechangeDate != null">rechange_date,</if>
+            rechange_date,
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="userId != null">#{userId},</if>
             <if test="rechangeName != null">#{rechangeName},</if>
             <if test="rechangeAmount != null">#{rechangeAmount},</if>
-            <if test="rechangeDate != null">#{rechangeDate},</if>
+            sysdate(),
          </trim>
     </insert>
 
@@ -63,7 +63,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteDeptRechangeByIds" parameterType="String">
-        delete from dept_rechange where id in 
+        delete from dept_rechange where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

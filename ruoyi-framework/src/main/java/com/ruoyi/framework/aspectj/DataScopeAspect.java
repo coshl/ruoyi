@@ -16,8 +16,9 @@ import com.ruoyi.common.utils.ShiroUtils;
 import com.ruoyi.common.utils.StringUtils;
 
 /**
+ * todo 00  数据过滤处理
  * 数据过滤处理
- * 
+ *
  * @author ruoyi
  */
 @Aspect
@@ -77,9 +78,9 @@ public class DataScopeAspect
         }
     }
 
-    /**
+    /** todo 00  String dataScope = role.getDataScope();
      * 数据范围过滤
-     * 
+     *
      * @param joinPoint 切点
      * @param user 用户
      * @param deptAlias 部门别名

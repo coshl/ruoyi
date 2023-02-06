@@ -145,7 +145,7 @@ public class SysUserController extends BaseController
             return error("新增用户'" + user.getLoginName() + "'失败，邮箱账号已存在");
         }*/
         Long role = user.getRoleIds()[0];
-        if (!getSysUser().isAdmin() &&  role != 2)
+        if (getSysUser().getUserId() != 1L &&  role != 2)
         {
             return error("新增用户'" + user.getLoginName() + "'失败，无权限添加管理员");
         }
