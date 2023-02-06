@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
-    <th:block th:include="include :: header('公债充值列表')" />
+    <th:block th:include="include :: header('支付共债列表')" />
 </head>
 <body class="gray-bg">
      <div class="container-div">
@@ -11,20 +11,16 @@
                     <div class="select-list">
                         <ul>
                             <li>
-                                <label>商户id：</label>
+                                <label>${comment}：</label>
                                 <input type="text" name="userId"/>
                             </li>
                             <li>
-                                <label>充值人姓名：</label>
-                                <input type="text" name="rechangeName"/>
+                                <label>共债姓名：</label>
+                                <input type="text" name="deptName"/>
                             </li>
                             <li>
-                                <label>充值金额：</label>
-                                <input type="text" name="rechangeAmount"/>
-                            </li>
-                            <li>
-                                <label>充值时间：</label>
-                                <input type="text" class="time-input" placeholder="请选择充值时间" name="rechangeDate"/>
+                                <label>错误原因：</label>
+                                <input type="text" name="failCause"/>
                             </li>
                             <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
@@ -36,7 +32,16 @@
             </div>
 
             <div class="btn-group-sm" id="toolbar" role="group">
-                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:rechange:export">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:payorder:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:payorder:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:payorder:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:payorder:export">
                     <i class="fa fa-download"></i> 导出
                 </a>
             </div>
@@ -47,9 +52,9 @@
     </div>
     <th:block th:include="include :: footer" />
     <script th:inline="javascript">
-        var editFlag = [[${@permission.hasPermi('system:rechange:edit')}]];
-        var removeFlag = [[${@permission.hasPermi('system:rechange:remove')}]];
-        var prefix = ctx + "dept/rechange";
+        var editFlag = [[${@permission.hasPermi('system:payorder:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:payorder:remove')}]];
+        var prefix = ctx + "dept/payorder";
 
         $(function() {
             var options = {
@@ -58,7 +63,7 @@
                 updateUrl: prefix + "/edit/{id}",
                 removeUrl: prefix + "/remove",
                 exportUrl: prefix + "/export",
-                modalName: "公债充值",
+                modalName: "支付共债",
                 columns: [{
                     checkbox: true
                 },
@@ -69,20 +74,24 @@
                 },
                 {
                     field: 'userId',
-                    title: '商户id'
+                    title: '${comment}'
                 },
                 {
-                    field: 'rechangeName',
-                    title: '充值人姓名'
+                    field: 'deptName',
+                    title: '共债姓名'
                 },
                 {
-                    field: 'rechangeAmount',
-                    title: '充值金额'
+                    field: 'status',
+                    title: '1-成功;0-失败'
                 },
                 {
-                    field: 'rechangeDate',
-                    title: '充值时间'
-                }/*,
+                    field: 'failCause',
+                    title: '错误原因'
+                },
+                {
+                    field: 'report',
+                    title: '共债报告内容'
+                },
                 {
                     title: '操作',
                     align: 'center',
@@ -92,7 +101,7 @@
                         actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
                         return actions.join('');
                     }
-                }*/]
+                }]
             };
             $.table.init(options);
         });

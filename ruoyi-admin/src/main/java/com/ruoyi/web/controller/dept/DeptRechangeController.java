@@ -26,10 +26,10 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * @date 2023-02-04
  */
 @Controller
-@RequestMapping("/system/rechange")
+@RequestMapping("/dept/rechange")
 public class DeptRechangeController extends BaseController
 {
-    private String prefix = "system/rechange";
+    private String prefix = "dept/rechange";
 
     @Autowired
     private IDeptRechangeService deptRechangeService;
