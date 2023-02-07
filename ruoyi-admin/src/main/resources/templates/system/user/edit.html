@@ -201,7 +201,7 @@
 	        if ($.validate.form()) {
 	        	var data = $("#form-user-edit").serializeArray();
 	        	var status = $("input[id='status']").is(':checked') == true ? 0 : 1;
-	        	var roleIds = $.form.selectCheckeds("role");
+                var roleIds =$("input[name='role']").val();
 	        	var postIds = $.form.selectSelects("post");
 	        	data.push({"name": "status", "value": status});
 	        	data.push({"name": "roleIds", "value": roleIds});
