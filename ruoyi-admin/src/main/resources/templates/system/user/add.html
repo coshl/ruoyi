@@ -148,7 +148,7 @@
             </div>
         </form>
     </div>
-      
+
     <div class="row">
         <div class="col-sm-offset-5 col-sm-10">
             <button type="button" class="btn btn-sm btn-primary" onclick="submitHandler()"><i class="fa fa-check"></i>保 存</button>&nbsp;
@@ -159,7 +159,7 @@
 	<th:block th:include="include :: select2-js" />
 	<script>
 	    var prefix = ctx + "system/user";
-	
+
         $("#form-user-add").validate({
         	onkeyup: false,
         	rules:{
@@ -230,7 +230,7 @@
             },
             focusCleanup: true
         });
-        
+
         function submitHandler() {
         	var chrtype = [[${#strings.defaultString(@config.getKey('sys.account.chrtype'), 0)}]];
 			var password = $("#password").val();
@@ -245,7 +245,7 @@
 	        	$.operate.saveTab(prefix + "/add", data);
 	        }
 	    }
-         
+
         /* 用户管理-新增-选择部门树 */
         function selectDeptTree() {
         	var treeId = $("#treeId").val();
@@ -259,7 +259,7 @@
 			};
 			$.modal.openOptions(options);
 		}
-		
+
 		function doSubmit(index, layero){
 			var body = $.modal.getChildFrame(index);
    			$("#treeId").val(body.find('#treeId').val());

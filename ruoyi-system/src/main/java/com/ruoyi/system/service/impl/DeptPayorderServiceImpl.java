@@ -1,7 +1,13 @@
 package com.ruoyi.system.service.impl;
 
 import java.util.List;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.ruoyi.common.annotation.Log;
+import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.system.api.DeptApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.DeptPayorderMapper;
@@ -11,19 +17,19 @@ import com.ruoyi.common.core.text.Convert;
 
 /**
  * 支付共债Service业务层处理
- * 
+ *
  * @author ruoyi
  * @date 2023-02-06
  */
 @Service
-public class DeptPayorderServiceImpl implements IDeptPayorderService 
+public class DeptPayorderServiceImpl implements IDeptPayorderService
 {
     @Autowired
     private DeptPayorderMapper deptPayorderMapper;
 
     /**
      * 查询支付共债
-     * 
+     *
      * @param id 支付共债主键
      * @return 支付共债
      */
@@ -35,7 +41,7 @@ public class DeptPayorderServiceImpl implements IDeptPayorderService
 
     /**
      * 查询支付共债列表
-     * 
+     *
      * @param deptPayorder 支付共债
      * @return 支付共债
      */
@@ -47,20 +53,32 @@ public class DeptPayorderServiceImpl implements IDeptPayorderService
 
     /**
      * 新增支付共债
-     * 
-     * @param deptPayorder 支付共债
+     *
      * @return 结果
      */
     @Override
-    public int insertDeptPayorder(DeptPayorder deptPayorder)
+    public AjaxResult insertDeptPayorder(String name)
     {
+        String result = DeptApi.getPayOrder(name);
+        DeptPayorder deptPayorder  = new DeptPayorder();
+        deptPayorder.setDeptName(name);
         deptPayorder.setCreateTime(DateUtils.getNowDate());
-        return deptPayorderMapper.insertDeptPayorder(deptPayorder);
+        deptPayorder.setStatus(0L);
+        if(result.isEmpty() || JSON.parseObject(result).getIntValue("code") != 0){
+            deptPayorder.setFailCause(result);
+            deptPayorder.getStatus();
+            return AjaxResult.error("查询失败");
+        }
+        JSONObject jsonResult = JSON.parseObject(result).getJSONObject("data");
+        deptPayorder.setReport(jsonResult.toJSONString());
+        deptPayorder.setStatus(1L);
+        deptPayorderMapper.insertDeptPayorder(deptPayorder);
+        return AjaxResult.success(jsonResult);
     }
 
     /**
      * 修改支付共债
-     * 
+     *
      * @param deptPayorder 支付共债
      * @return 结果
      */
@@ -73,7 +91,7 @@ public class DeptPayorderServiceImpl implements IDeptPayorderService
 
     /**
      * 批量删除支付共债
-     * 
+     *
      * @param ids 需要删除的支付共债主键
      * @return 结果
      */
@@ -85,7 +103,7 @@ public class DeptPayorderServiceImpl implements IDeptPayorderService
 
     /**
      * 删除支付共债信息
-     * 
+     *
      * @param id 支付共债主键
      * @return 结果
      */
