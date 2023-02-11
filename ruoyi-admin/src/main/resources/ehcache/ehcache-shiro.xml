@@ -2,7 +2,8 @@
 <ehcache name="ruoyi" updateCheck="false">
 
     <!-- 磁盘缓存位置 -->
-    <diskStore path="java.io.tmpdir"/>
+    <!--<diskStore path="java.io.tmpdir"/> 这是默认目录了-->
+    <diskStore path="user.home"/>
     
     <!-- maxEntriesLocalHeap:堆内存中最大缓存对象数，0没有限制 -->
     <!-- maxElementsInMemory： 在内存中缓存的element的最大数目。-->
@@ -88,4 +89,3 @@
            statistics="false"/>
     
 </ehcache>
-	
