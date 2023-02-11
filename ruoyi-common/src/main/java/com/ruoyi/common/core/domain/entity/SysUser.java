@@ -153,6 +153,7 @@ public class SysUser extends BaseEntity
         this.userId = userId;
     }
 
+    // TODO 00 2023/2/6 update
     public boolean isAdmin()
     {
         return isAdmin(this.deptId);

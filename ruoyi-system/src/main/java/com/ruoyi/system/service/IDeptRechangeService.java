@@ -2,18 +2,31 @@ package com.ruoyi.system.service;
 
 import java.util.List;
 import com.ruoyi.system.domain.DeptRechange;
+import org.apache.poi.hpsf.Decimal;
+import org.springframework.scheduling.annotation.Async;
 
 /**
  * 公债充值Service接口
- * 
+ *
  * @author ruoyi
  * @date 2023-02-04
  */
-public interface IDeptRechangeService 
+public interface IDeptRechangeService
 {
+
+    /**
+     * 查询计费
+     */
+    public Long selectBalance(Long userId);
+
+
+
+    public void insertBilling(Long userId, String configKey);
+
+
     /**
      * 查询公债充值
-     * 
+     *
      * @param id 公债充值主键
      * @return 公债充值
      */
@@ -21,7 +34,7 @@ public interface IDeptRechangeService
 
     /**
      * 查询公债充值列表
-     * 
+     *
      * @param deptRechange 公债充值
      * @return 公债充值集合
      */
@@ -29,7 +42,7 @@ public interface IDeptRechangeService
 
     /**
      * 新增公债充值
-     * 
+     *
      * @param deptRechange 公债充值
      * @return 结果
      */
@@ -37,7 +50,7 @@ public interface IDeptRechangeService
 
     /**
      * 修改公债充值
-     * 
+     *
      * @param deptRechange 公债充值
      * @return 结果
      */
@@ -45,7 +58,7 @@ public interface IDeptRechangeService
 
     /**
      * 批量删除公债充值
-     * 
+     *
      * @param ids 需要删除的公债充值主键集合
      * @return 结果
      */
@@ -53,7 +66,7 @@ public interface IDeptRechangeService
 
     /**
      * 删除公债充值信息
-     * 
+     *
      * @param id 公债充值主键
      * @return 结果
      */

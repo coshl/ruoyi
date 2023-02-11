@@ -35,7 +35,7 @@ public interface IDeptPayorderService
      * @param deptPayorder 支付共债
      * @return 结果
      */
-    public AjaxResult insertDeptPayorder(String name);
+    public AjaxResult insertDeptPayorder(Long userId,String name);
 
     /**
      * 修改支付共债

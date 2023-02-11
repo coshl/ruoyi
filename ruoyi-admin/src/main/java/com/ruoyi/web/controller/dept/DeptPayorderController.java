@@ -54,6 +54,9 @@ public class DeptPayorderController extends BaseController
     public TableDataInfo list(DeptPayorder deptPayorder)
     {
         startPage();
+        if(!getSysUser().isAdmin()){
+            deptPayorder.setUserId(getSysUser().getUserId());
+        }
         List<DeptPayorder> list = deptPayorderService.selectDeptPayorderList(deptPayorder);
         return getDataTable(list);
     }
@@ -91,7 +94,7 @@ public class DeptPayorderController extends BaseController
     public AjaxResult addSave(String name)
     {
 
-        return deptPayorderService.insertDeptPayorder(name);
+        return deptPayorderService.insertDeptPayorder(getSysUser().getUserId(),name);
     }
 
     /**

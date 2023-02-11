@@ -145,7 +145,7 @@ public class SysUserController extends BaseController
             return error("新增用户'" + user.getLoginName() + "'失败，邮箱账号已存在");
         }*/
         Long role = user.getRoleIds()[0];
-        if (getSysUser().getUserId() != 1L &&  role != 2)
+        if (getSysUser().getUserId() != 1L &&  role == 100L)//!=2
         {
             return error("新增用户'" + user.getLoginName() + "'失败，无权限添加管理员");
         }
@@ -167,7 +167,7 @@ public class SysUserController extends BaseController
         List<SysRole> roles = roleService.selectRolesByUserId(userId);
         mmap.put("user", userService.selectUserById(userId));
         mmap.put("roles", SysUser.isAdmin(userId) ? roles : roles.stream().filter(r -> !r.isAdmin()).collect(Collectors.toList()));
-        mmap.put("posts", postService.selectPostsByUserId(userId));
+        //mmap.put("posts", postService.selectPostsByUserId(userId));
         return prefix + "/edit";
     }
 
@@ -209,6 +209,8 @@ public class SysUserController extends BaseController
         {
             return error("修改用户'" + user.getLoginName() + "'失败，邮箱账号已存在");
         }
+        Long role = user.getRoleIds()[0];
+        user.setRoleName(roleService.selectRoleById(role).getRoleName());
         user.setUpdateBy(getLoginName());
         AuthorizationUtils.clearAllCachedAuthorizationInfo();
         return toAjax(userService.updateUser(user));
