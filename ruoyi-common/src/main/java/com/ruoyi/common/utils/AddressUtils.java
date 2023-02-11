@@ -9,7 +9,7 @@ import com.ruoyi.common.utils.http.HttpUtils;
 
 /**
  * 获取地址类
- * 
+ *
  * @author ruoyi
  */
 public class AddressUtils
@@ -40,9 +40,10 @@ public class AddressUtils
                     return UNKNOWN;
                 }
                 JSONObject obj = JSONObject.parseObject(rspStr);
-                String region = obj.getString("pro");
+                //String region = obj.getString("pro");
+                String region = obj.getString("addr");
                 String city = obj.getString("city");
-                return String.format("%s %s", region, city);
+                return String.format("%s %s",city,region);
             }
             catch (Exception e)
             {
