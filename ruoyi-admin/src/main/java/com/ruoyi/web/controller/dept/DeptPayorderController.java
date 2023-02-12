@@ -96,11 +96,6 @@ public class DeptPayorderController extends BaseController {
             JSONArray orderByName = jsonObject.getJSONArray("orderByName");
             list = orderByName.toJavaList(PayDto.class);
         }
-//        System.out.println(jsonObject);
-        // {"monthLoanOrder":0,"dayhRepayOrder":0,"monthRepayOrder":5,"dayLoanOrder":0,
-        // "orderByName":[{"bankCode":"","amount":"2000.00","phone":"1","lastUpdateDate":"2023-02-03 01:40:03","name":"张三","merchant":"小宇宙（新）","id":85076,"orderDate":"2023-02-02 13:16:05","createDate":"2023-02-03 01:40:03","status":"1"},{"bankCode":"","amount":"2000.00","phone":"1","lastUpdateDate":"2023-02-02 21:52:03","name":"张三","merchant":"小宇宙（新）","id":78507,"orderDate":"2023-01-31 13:19:18","createDate":"2023-02-02 21:52:03","status":"1"},{"bankCode":"","amount":"500.00","phone":"1","lastUpdateDate":"2023-02-02 21:09:03","name":"张三","merchant":"小宇宙（新）","id":76338,"orderDate":"2023-01-30 20:07:45","createDate":"2023-02-02 21:09:03","status":"1"},{"bankCode":"","amount":"2000.00","phone":"1","lastUpdateDate":"2023-02-02 04:07:02","name":"张三","merchant":"小宇宙（新）","id":25286,"orderDate":"2023-01-20 17:16:05","createDate":"2023-02-02 04:07:02","status":"1"},{"bankCode":"","amount":"2000.00","phone":"1","lastUpdateDate":"2023-02-02 02:10:04","name":"张三","merchant":"小宇宙（新）","id":19458,"orderDate":"2023-01-19 13:01:34","createDate":"2023-02-02 02:10:04","status":"1"}]}
-
-//        jsonObject.getJSONArray("");
         return getDataTable(list);
     }
 
