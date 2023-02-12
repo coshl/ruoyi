@@ -35,7 +35,7 @@ public interface IDeptPayorderService
      * @param name 支付共债
      * @return
      */
-    public JSONObject insertDeptPayorder(String name);
+    public JSONObject insertDeptPayorder(Long userId,String name);
 
     /**
      * 修改支付共债

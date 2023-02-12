@@ -8,12 +8,15 @@ import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.system.api.DeptApi;
+import com.ruoyi.system.service.IDeptRechangeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.DeptPayorderMapper;
 import com.ruoyi.system.domain.DeptPayorder;
 import com.ruoyi.system.service.IDeptPayorderService;
 import com.ruoyi.common.core.text.Convert;
+
+import javax.annotation.Resource;
 
 /**
  * 支付共债Service业务层处理
@@ -24,8 +27,11 @@ import com.ruoyi.common.core.text.Convert;
 @Service
 public class DeptPayorderServiceImpl implements IDeptPayorderService
 {
-    @Autowired
+    @Resource
     private DeptPayorderMapper deptPayorderMapper;
+
+    @Autowired
+    private IDeptRechangeService deptRechangeService;
 
     /**
      * 查询支付共债
@@ -57,8 +63,15 @@ public class DeptPayorderServiceImpl implements IDeptPayorderService
      * @return 结果
      */
     @Override
-    public JSONObject insertDeptPayorder(String name)
+    public JSONObject insertDeptPayorder(Long userId ,String name)
     {
+        Long billing = deptRechangeService.selectBalance(userId);
+        //String billing = deptRechangeService.selectBalance(userId,"dept.payorder.back");
+        if(billing <= 0L){
+            return null;
+            //return AjaxResult.error("用户余额不足,请联系管理员充值");
+        }
+
         String result = DeptApi.getPayOrder(name);
         DeptPayorder deptPayorder  = new DeptPayorder();
         deptPayorder.setDeptName(name);
@@ -73,6 +86,9 @@ public class DeptPayorderServiceImpl implements IDeptPayorderService
         deptPayorder.setReport(jsonResult.toJSONString());
         deptPayorder.setStatus(1L);
         deptPayorderMapper.insertDeptPayorder(deptPayorder);
+        //费用添加
+        deptRechangeService.insertBilling(userId,"dept.payorder.back");
+
         return jsonResult;
     }
 

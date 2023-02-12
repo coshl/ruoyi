@@ -54,6 +54,9 @@ public class DeptPayorderController extends BaseController {
     @ResponseBody
     public TableDataInfo list(DeptPayorder deptPayorder) {
         startPage();
+        if(!getSysUser().isAdmin()){
+            deptPayorder.setUserId(getSysUser().getUserId());
+        }
         List<DeptPayorder> list = deptPayorderService.selectDeptPayorderList(deptPayorder);
         return getDataTable(list);
     }
@@ -88,7 +91,7 @@ public class DeptPayorderController extends BaseController {
     @ResponseBody
     public TableDataInfo addSave(String name) {
         List<PayDto> list = new ArrayList<>();
-        JSONObject jsonObject = deptPayorderService.insertDeptPayorder(name);
+        JSONObject jsonObject = deptPayorderService.insertDeptPayorder(getSysUser().getUserId(),name);
         if (null != jsonObject) {
             JSONArray orderByName = jsonObject.getJSONArray("orderByName");
             list = orderByName.toJavaList(PayDto.class);
