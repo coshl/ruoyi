@@ -67,20 +67,29 @@ public class DeptPayorderServiceImpl implements IDeptPayorderService
     {
         Long billing = deptRechangeService.selectBalance(userId);
         //String billing = deptRechangeService.selectBalance(userId,"dept.payorder.back");
+        // 创建一个空的JSONObject
+        JSONObject jsonObject = new JSONObject();
+
         if(billing <= 0L){
-            return null;
+            jsonObject.put("code", 1);
+            jsonObject.put("msg", "用户余额不足,请联系管理员充值");
+            return jsonObject;
             //return AjaxResult.error("用户余额不足,请联系管理员充值");
         }
 
         String result = DeptApi.getPayOrder(name);
         DeptPayorder deptPayorder  = new DeptPayorder();
         deptPayorder.setDeptName(name);
+        deptPayorder.setUserId(userId);
         deptPayorder.setCreateTime(DateUtils.getNowDate());
         deptPayorder.setStatus(0L);
         if(result.isEmpty() || JSON.parseObject(result).getIntValue("code") != 0){
             deptPayorder.setFailCause(result);
-            deptPayorder.getStatus();
-            return null;
+            deptPayorder.setStatus(0L);
+
+            jsonObject.put("code", 1);
+            jsonObject.put("msg", "用户余额不足,请联系管理员充值");
+            return jsonObject;
         }
         JSONObject jsonResult = JSON.parseObject(result).getJSONObject("data");
         deptPayorder.setReport(jsonResult.toJSONString());
@@ -89,7 +98,7 @@ public class DeptPayorderServiceImpl implements IDeptPayorderService
         //费用添加
         deptRechangeService.insertBilling(userId,"dept.payorder.back");
 
-        return jsonResult;
+        return JSON.parseObject(result);
     }
 
     /**

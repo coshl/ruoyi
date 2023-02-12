@@ -1,5 +1,6 @@
 package com.ruoyi.web.controller.dept;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,14 +90,20 @@ public class DeptPayorderController extends BaseController {
     @Log(title = "支付共债", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
-    public TableDataInfo addSave(String name) {
+    public Serializable addSave(String name) {
+        if(name.isEmpty()){
+            return  AjaxResult.error("请输入正确用户名");
+        }
         List<PayDto> list = new ArrayList<>();
         JSONObject jsonObject = deptPayorderService.insertDeptPayorder(getSysUser().getUserId(),name);
-        if (null != jsonObject) {
-            JSONArray orderByName = jsonObject.getJSONArray("orderByName");
+        if (1 == jsonObject.getIntValue("code")) {
+            return  AjaxResult.error(jsonObject.getString("msg"));
+        }else {
+            JSONArray orderByName = jsonObject.getJSONObject("data").getJSONArray("orderByName");
             list = orderByName.toJavaList(PayDto.class);
+            return getDataTable(list);
         }
-        return getDataTable(list);
+
     }
 
     /**

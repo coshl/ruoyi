@@ -253,7 +253,7 @@ public class SysUserServiceImpl implements ISysUserService
         // 删除用户与岗位关联
         //userPostMapper.deleteUserPostByUserId(userId);
         // 新增用户与岗位管理
-        insertUserPost(user);
+        //insertUserPost(user);
         return userMapper.updateUser(user);
     }
 
