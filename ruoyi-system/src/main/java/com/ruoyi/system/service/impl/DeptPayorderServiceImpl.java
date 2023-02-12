@@ -25,8 +25,7 @@ import javax.annotation.Resource;
  * @date 2023-02-06
  */
 @Service
-public class DeptPayorderServiceImpl implements IDeptPayorderService
-{
+public class DeptPayorderServiceImpl implements IDeptPayorderService {
     @Resource
     private DeptPayorderMapper deptPayorderMapper;
 
@@ -40,8 +39,7 @@ public class DeptPayorderServiceImpl implements IDeptPayorderService
      * @return 支付共债
      */
     @Override
-    public DeptPayorder selectDeptPayorderById(Long id)
-    {
+    public DeptPayorder selectDeptPayorderById(Long id) {
         return deptPayorderMapper.selectDeptPayorderById(id);
     }
 
@@ -52,8 +50,7 @@ public class DeptPayorderServiceImpl implements IDeptPayorderService
      * @return 支付共债
      */
     @Override
-    public List<DeptPayorder> selectDeptPayorderList(DeptPayorder deptPayorder)
-    {
+    public List<DeptPayorder> selectDeptPayorderList(DeptPayorder deptPayorder) {
         return deptPayorderMapper.selectDeptPayorderList(deptPayorder);
     }
 
@@ -63,42 +60,34 @@ public class DeptPayorderServiceImpl implements IDeptPayorderService
      * @return 结果
      */
     @Override
-    public JSONObject insertDeptPayorder(Long userId ,String name)
-    {
+    public JSONObject insertDeptPayorder(Long userId, String name) {
+        JSONObject jsonResult = new JSONObject();
         Long billing = deptRechangeService.selectBalance(userId);
         //String billing = deptRechangeService.selectBalance(userId,"dept.payorder.back");
-        // 创建一个空的JSONObject
-        JSONObject jsonObject = new JSONObject();
-
-        if(billing <= 0L){
-            jsonObject.put("code", 1);
-            jsonObject.put("msg", "用户余额不足,请联系管理员充值");
-            return jsonObject;
+        if (billing <= 0L) {
+            jsonResult.put("error", "用户余额不足,请联系管理员充值");
+            return jsonResult;
             //return AjaxResult.error("用户余额不足,请联系管理员充值");
         }
 
         String result = DeptApi.getPayOrder(name);
-        DeptPayorder deptPayorder  = new DeptPayorder();
+        DeptPayorder deptPayorder = new DeptPayorder();
         deptPayorder.setDeptName(name);
-        deptPayorder.setUserId(userId);
         deptPayorder.setCreateTime(DateUtils.getNowDate());
         deptPayorder.setStatus(0L);
-        if(result.isEmpty() || JSON.parseObject(result).getIntValue("code") != 0){
+        if (result.isEmpty() || JSON.parseObject(result).getIntValue("code") != 0) {
             deptPayorder.setFailCause(result);
-            deptPayorder.setStatus(0L);
-
-            jsonObject.put("code", 1);
-            jsonObject.put("msg", "用户余额不足,请联系管理员充值");
-            return jsonObject;
+            deptPayorder.getStatus();
+            return null;
         }
-        JSONObject jsonResult = JSON.parseObject(result).getJSONObject("data");
+        jsonResult = JSON.parseObject(result).getJSONObject("data");
         deptPayorder.setReport(jsonResult.toJSONString());
         deptPayorder.setStatus(1L);
         deptPayorderMapper.insertDeptPayorder(deptPayorder);
         //费用添加
-        deptRechangeService.insertBilling(userId,"dept.payorder.back");
+        deptRechangeService.insertBilling(userId, "dept.payorder.back");
 
-        return JSON.parseObject(result);
+        return jsonResult;
     }
 
     /**
@@ -108,8 +97,7 @@ public class DeptPayorderServiceImpl implements IDeptPayorderService
      * @return 结果
      */
     @Override
-    public int updateDeptPayorder(DeptPayorder deptPayorder)
-    {
+    public int updateDeptPayorder(DeptPayorder deptPayorder) {
         deptPayorder.setUpdateTime(DateUtils.getNowDate());
         return deptPayorderMapper.updateDeptPayorder(deptPayorder);
     }
@@ -121,8 +109,7 @@ public class DeptPayorderServiceImpl implements IDeptPayorderService
      * @return 结果
      */
     @Override
-    public int deleteDeptPayorderByIds(String ids)
-    {
+    public int deleteDeptPayorderByIds(String ids) {
         return deptPayorderMapper.deleteDeptPayorderByIds(Convert.toStrArray(ids));
     }
 
@@ -133,8 +120,7 @@ public class DeptPayorderServiceImpl implements IDeptPayorderService
      * @return 结果
      */
     @Override
-    public int deleteDeptPayorderById(Long id)
-    {
+    public int deleteDeptPayorderById(Long id) {
         return deptPayorderMapper.deleteDeptPayorderById(id);
     }
 }
