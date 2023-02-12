@@ -31,8 +31,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  */
 @Controller
 @RequestMapping("/dept/payorder")
-public class DeptPayorderController extends BaseController
-{
+public class DeptPayorderController extends BaseController {
     private String prefix = "dept/payorder";
 
     @Autowired
@@ -40,8 +39,7 @@ public class DeptPayorderController extends BaseController
 
     @RequiresPermissions("system:payorder:view")
     @GetMapping()
-    public String payorder()
-    {
+    public String payorder() {
         return prefix + "/payorder";
     }
 
@@ -51,12 +49,8 @@ public class DeptPayorderController extends BaseController
     @RequiresPermissions("system:payorder:list")
     @PostMapping("/list")
     @ResponseBody
-    public TableDataInfo list(DeptPayorder deptPayorder)
-    {
+    public TableDataInfo list(DeptPayorder deptPayorder) {
         startPage();
-        if(!getSysUser().isAdmin()){
-            deptPayorder.setUserId(getSysUser().getUserId());
-        }
         List<DeptPayorder> list = deptPayorderService.selectDeptPayorderList(deptPayorder);
         return getDataTable(list);
     }
@@ -94,7 +88,7 @@ public class DeptPayorderController extends BaseController
     public AjaxResult addSave(String name)
     {
 
-        return deptPayorderService.insertDeptPayorder(getSysUser().getUserId(),name);
+        return deptPayorderService.insertDeptPayorder(name);
     }
 
     /**

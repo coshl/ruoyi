@@ -1,44 +1,75 @@
 <!DOCTYPE html>
-<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <th:block th:include="include :: header('修改支付共债')" />
+    <th:block th:include="include :: header('修改支付共债')"/>
 </head>
 <body class="white-bg">
-    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
-        <form class="form-horizontal m" id="form-payorder-edit" th:object="${deptPayorder}">
-            <input name="id" th:field="*{id}" type="hidden">
-            <div class="form-group">
-                <label class="col-sm-3 control-label">${comment}：</label>
-                <div class="col-sm-8">
-                    <input name="userId" th:field="*{userId}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">共债姓名：</label>
-                <div class="col-sm-8">
-                    <input name="deptName" th:field="*{deptName}" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">错误原因：</label>
-                <div class="col-sm-8">
-                    <input name="failCause" th:field="*{failCause}" class="form-control" type="text">
-                </div>
-            </div>
-        </form>
-    </div>
-    <th:block th:include="include :: footer" />
-    <script th:inline="javascript">
-        var prefix = ctx + "dept/payorder";
-        $("#form-payorder-edit").validate({
-            focusCleanup: true
-        });
+<div class="col-sm-12 search-collapse">
+    <table border="2" height="20px">
+        <tr>
+            <td width="500px">近30天借款订单数</td>
+            <td width="300px" th:text="${monthLoanOrder}"></span></td>
+            <td width="500px">近30天还款订单数</td>
+            <td width="300px" th:text="${monthRepayOrder}"></td>
+        </tr>
+        <tr >
+            <td width="500px">近七天借款订单数</td>
+            <td width="300px" th:text="${dayLoanOrder}"></td>
+            <td width="500px">近七天还款订单数</td>
+            <td width="300px" th:text="${dayhRepayOrder}">80</td>
+        </tr>
+    </table>
+</div>
+<div class="col-sm-12 search-collapse">
+    <table id="bootstrap-table" class="table table-bordered table-hover">
+        <thead class="">
+        <tr>
+            <th>
+                <div class="th-inner ">用户姓名</div>
+                <div class="fht-cell"></div>
+            </th>
+            <th >
+                <div class="th-inner ">银行卡号</div>
+                <div class="fht-cell"></div>
+            </th>
+            <th >
+                <div class="th-inner ">金额</div>
+                <div class="fht-cell"></div>
+            </th>
+            <th >
+                <div class="th-inner ">订单状态</div>
+                <div class="fht-cell"></div>
+            </th>
+            <th >
+                <div class="th-inner ">订单时间</div>
+                <div class="fht-cell"></div>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr data-index="0" th:each="pay,index:${payDto}">
+            <td th:text="${pay.name}"></td>
+            <td th:text="${pay.bankCode}"></td>
+            <td th:text="${pay.amount}"></td>
+            <td th:text="${pay.status=='1'?'收款':'还款'}"></td>
+            <td th:text="${pay.orderDate}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<th:block th:include="include :: footer"/>
+<script th:inline="javascript">
+    var prefix = ctx + "dept/payorder";
+    $("#form-payorder-edit").validate({
+        focusCleanup: true
+    });
 
-        function submitHandler() {
-            if ($.validate.form()) {
-                $.operate.save(prefix + "/edit", $('#form-payorder-edit').serialize());
-            }
-        }
-    </script>
+    function submitHandler() {
+        return
+        // if ($.validate.form()) {
+        //     $.operate.save(prefix + "/edit", $('#form-payorder-edit').serialize());
+        // }
+    }
+</script>
 </body>
 </html>

@@ -129,7 +129,7 @@
                         <label class="col-xs-2 control-label">角色：</label>
                         <div class="col-xs-10">
                             <label th:each="role:${roles}" class="check-box">
-								<input name="role"  type="radio" th:value="${role.roleId}" th:text="${role.roleName}" th:disabled="${role.status == '1'}" th:checked="${role.flag}">
+								<input name="roles"  type="radio" th:value="${role.roleId}" th:text="${role.roleName}" th:disabled="${role.status == '1'}" th:checked="${role.roleId == 2 ? true : false}" >
 							</label>
                         </div>
                     </div>
@@ -237,7 +237,7 @@
 	        if ($.validate.form() && checkpwd(chrtype, password)) {
 	        	var data = $("#form-user-add").serializeArray();
 	        	var status = $("input[id='status']").is(':checked') == true ? 0 : 1;
-                var roleIds =$("input[name='role']").val();
+                var roleIds =$("input[name='roles']:checked").val();
 	        	var postIds = $.form.selectSelects("post");
 	        	data.push({"name": "status", "value": status});
 	        	data.push({"name": "roleIds", "value": roleIds});

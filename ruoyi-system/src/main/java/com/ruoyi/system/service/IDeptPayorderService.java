@@ -31,11 +31,10 @@ public interface IDeptPayorderService
 
     /**
      * 新增支付共债
-     *
-     * @param deptPayorder 支付共债
-     * @return 结果
+     * @param name 支付共债
+     * @return
      */
-    public AjaxResult insertDeptPayorder(Long userId,String name);
+    public JSONObject insertDeptPayorder(String name);
 
     /**
      * 修改支付共债
