@@ -1,5 +1,6 @@
 package com.ruoyi.web.controller.dept;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,7 +55,7 @@ public class DeptPayorderController extends BaseController {
     @ResponseBody
     public TableDataInfo list(DeptPayorder deptPayorder) {
         startPage();
-        if (!getSysUser().isAdmin()) {
+        if(!getSysUser().isAdmin()){
             deptPayorder.setUserId(getSysUser().getUserId());
         }
         List<DeptPayorder> list = deptPayorderService.selectDeptPayorderList(deptPayorder);
@@ -89,18 +90,21 @@ public class DeptPayorderController extends BaseController {
     @Log(title = "支付共债", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
-    public TableDataInfo addSave(String name) {
+    public Serializable addSave(String name) {
         List<PayDto> list = new ArrayList<>();
-        JSONObject jsonObject = deptPayorderService.insertDeptPayorder(getSysUser().getUserId(), name);
-        if (null != jsonObject && !jsonObject.containsKey("error")) {
-            JSONArray orderByName = jsonObject.getJSONArray("orderByName");
-            list = orderByName.toJavaList(PayDto.class);
-        } else if (jsonObject.containsKey("error")) {
-            PayDto payDto = new PayDto();
-            payDto.setAmount("用户余额不足,请联系管理员充值");
-            list.add(payDto);
+        if(name.isEmpty()){
+            return  getDataTable(list);
         }
-        return getDataTable(list);
+
+        JSONObject jsonObject = deptPayorderService.insertDeptPayorder(getSysUser().getUserId(),name);
+        if (1 == jsonObject.getIntValue("code")) {
+            return  AjaxResult.error(jsonObject.getString("msg"));
+        }else {
+            JSONArray orderByName = jsonObject.getJSONObject("data").getJSONArray("orderByName");
+            list = orderByName.toJavaList(PayDto.class);
+            return getDataTable(list);
+        }
+
     }
 
     /**
