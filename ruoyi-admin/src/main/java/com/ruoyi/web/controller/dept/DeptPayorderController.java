@@ -1,10 +1,13 @@
 package com.ruoyi.web.controller.dept;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.ruoyi.system.api.DeptApi;
+import com.ruoyi.system.domain.PayDto;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -62,8 +65,7 @@ public class DeptPayorderController extends BaseController {
     @Log(title = "支付共债", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     @ResponseBody
-    public AjaxResult export(DeptPayorder deptPayorder)
-    {
+    public AjaxResult export(DeptPayorder deptPayorder) {
         List<DeptPayorder> list = deptPayorderService.selectDeptPayorderList(deptPayorder);
         ExcelUtil<DeptPayorder> util = new ExcelUtil<DeptPayorder>(DeptPayorder.class);
         return util.exportExcel(list, "支付共债数据");
@@ -73,8 +75,7 @@ public class DeptPayorderController extends BaseController {
      * 新增支付共债
      */
     @GetMapping("/add")
-    public String add()
-    {
+    public String add() {
         return prefix + "/add";
     }
 
@@ -85,10 +86,19 @@ public class DeptPayorderController extends BaseController {
     @Log(title = "支付共债", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
-    public AjaxResult addSave(String name)
-    {
+    public TableDataInfo addSave(String name) {
+        List<PayDto> list = new ArrayList<>();
+        JSONObject jsonObject = deptPayorderService.insertDeptPayorder(name);
+        if (null != jsonObject) {
+            JSONArray orderByName = jsonObject.getJSONArray("orderByName");
+            list = orderByName.toJavaList(PayDto.class);
+        }
+//        System.out.println(jsonObject);
+        // {"monthLoanOrder":0,"dayhRepayOrder":0,"monthRepayOrder":5,"dayLoanOrder":0,
+        // "orderByName":[{"bankCode":"","amount":"2000.00","phone":"1","lastUpdateDate":"2023-02-03 01:40:03","name":"张三","merchant":"小宇宙（新）","id":85076,"orderDate":"2023-02-02 13:16:05","createDate":"2023-02-03 01:40:03","status":"1"},{"bankCode":"","amount":"2000.00","phone":"1","lastUpdateDate":"2023-02-02 21:52:03","name":"张三","merchant":"小宇宙（新）","id":78507,"orderDate":"2023-01-31 13:19:18","createDate":"2023-02-02 21:52:03","status":"1"},{"bankCode":"","amount":"500.00","phone":"1","lastUpdateDate":"2023-02-02 21:09:03","name":"张三","merchant":"小宇宙（新）","id":76338,"orderDate":"2023-01-30 20:07:45","createDate":"2023-02-02 21:09:03","status":"1"},{"bankCode":"","amount":"2000.00","phone":"1","lastUpdateDate":"2023-02-02 04:07:02","name":"张三","merchant":"小宇宙（新）","id":25286,"orderDate":"2023-01-20 17:16:05","createDate":"2023-02-02 04:07:02","status":"1"},{"bankCode":"","amount":"2000.00","phone":"1","lastUpdateDate":"2023-02-02 02:10:04","name":"张三","merchant":"小宇宙（新）","id":19458,"orderDate":"2023-01-19 13:01:34","createDate":"2023-02-02 02:10:04","status":"1"}]}
 
-        return deptPayorderService.insertDeptPayorder(name);
+//        jsonObject.getJSONArray("");
+        return getDataTable(list);
     }
 
     /**
@@ -96,10 +106,17 @@ public class DeptPayorderController extends BaseController {
      */
     @RequiresPermissions("system:payorder:edit")
     @GetMapping("/edit/{id}")
-    public String edit(@PathVariable("id") Long id, ModelMap mmap)
-    {
+    public String edit(@PathVariable("id") Long id, ModelMap mmap) {
         DeptPayorder deptPayorder = deptPayorderService.selectDeptPayorderById(id);
         mmap.put("deptPayorder", deptPayorder);
+        JSONObject jsonObject = JSON.parseObject(deptPayorder.getReport());
+        JSONArray orderByName = jsonObject.getJSONArray("orderByName");
+        List<PayDto> payDtos = orderByName.toJavaList(PayDto.class);
+        mmap.put("monthLoanOrder", jsonObject.getInteger("monthLoanOrder"));
+        mmap.put("dayhRepayOrder", jsonObject.getInteger("dayhRepayOrder"));
+        mmap.put("monthRepayOrder", jsonObject.getInteger("monthRepayOrder"));
+        mmap.put("dayLoanOrder", jsonObject.getInteger("dayLoanOrder"));
+        mmap.put("payDto", payDtos);
         return prefix + "/edit";
     }
 
@@ -110,8 +127,7 @@ public class DeptPayorderController extends BaseController {
     @Log(title = "支付共债", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
-    public AjaxResult editSave(DeptPayorder deptPayorder)
-    {
+    public AjaxResult editSave(DeptPayorder deptPayorder) {
         return toAjax(deptPayorderService.updateDeptPayorder(deptPayorder));
     }
 
@@ -120,10 +136,9 @@ public class DeptPayorderController extends BaseController {
      */
     @RequiresPermissions("system:payorder:remove")
     @Log(title = "支付共债", businessType = BusinessType.DELETE)
-    @PostMapping( "/remove")
+    @PostMapping("/remove")
     @ResponseBody
-    public AjaxResult remove(String ids)
-    {
+    public AjaxResult remove(String ids) {
         return toAjax(deptPayorderService.deleteDeptPayorderByIds(ids));
     }
 }
