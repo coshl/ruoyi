@@ -6,7 +6,7 @@ spring:
         druid:
             # 主库数据源
             master:
-                url: jdbc:mysql://rm-3ns04ek6bj453322o1o.mysql.rds.aliyuncs.com:3306/billing?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+                url: jdbc:mysql://rm-j6cw6drz64u4y5xf9bo.mysql.rds.aliyuncs.com:3306/billing?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
                 username: root
                 password: Qdsdff23224#@R!s$#
             # 从库数据源
