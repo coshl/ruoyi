@@ -10,32 +10,32 @@
             <ul>
                 <li>
                     <label>共债姓名</label>
-                    <input type="text" name="name" />
+                    <input type="text" name="name" id="name" />
                 </li>
                 <li>
-                    <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                    <a class="btn btn-primary btn-rounded btn-sm" onclick="selectUserByName() $.operate.post()"><i class="fa fa-search"></i>&nbsp;搜索</a>
                 </li>
             </ul>
         </div>
     </form>
 </div>
-<!--<div class="col-sm-12 search-collapse">-->
-<!--    <h1 th:value="${monthLoanOrder}" th:text="${monthLoanOrder}">{{monthLoanOrder}}}</h1>-->
-<!--<table border="2" height="20px">-->
-<!--    <tr>-->
-<!--        <td width="500px">近30天借款订单数</td>-->
-<!--        <td width="300px" th:text="${monthLoanOrder}"></span></td>-->
-<!--        <td width="500px">近30天还款订单数</td>-->
-<!--        <td width="300px" th:text="${monthRepayOrder}"></td>-->
-<!--    </tr>-->
-<!--    <tr>-->
-<!--        <td width="500px">近七天借款订单数</td>-->
-<!--        <td width="300px" th:text="${dayLoanOrder}"></td>-->
-<!--        <td width="500px">近七天还款订单数</td>-->
-<!--        <td width="300px" th:text="${dayhRepayOrder}">80</td>-->
-<!--    </tr>-->
-<!--</table>-->
-<!--</div>-->
+<!--<div class="col-sm-12 search-collapse">
+    <h1 th:value="${monthLoanOrder}" th:text="${monthLoanOrder}">{{monthLoanOrder}}}</h1>
+<table border="2" height="20px">
+    <tr>
+        <td width="500px">近30天借款订单数</td>
+        <td width="300px" th:text="${monthLoanOrder}"></span></td>
+        <td width="500px">近30天还款订单数</td>
+        <td width="300px" th:text="${monthRepayOrder}"></td>
+    </tr>
+    <tr>
+        <td width="500px">近七天借款订单数</td>
+        <td width="300px" th:text="${dayLoanOrder}"></td>
+        <td width="500px">近七天还款订单数</td>
+        <td width="300px" th:text="${dayhRepayOrder}">80</td>
+    </tr>
+</table>
+</div>-->
 <div class="container-div">
     <div class="row">
         <div class="col-sm-12 select-table table-striped">
@@ -49,75 +49,82 @@
 
     $(function() {
         var options = {
-            url: prefix + "/add",
+            data: [[${payDto}]],
+            sidePagination: "client",
             showSearch: false,
             showRefresh: false,
             showToggle: false,
             showColumns: false,
-            columns: [{
-                checkbox: true
-            },
-                // {
-                //     field : 'id',
-                //     title : '序号'
-                // },
-                {
-                    field : 'name',
-                    title : '用户姓名'
-                },
-                {
-                    field: 'bankCode',
-                    title: '银行卡号',
-                },
-                // {
-                //     field : 'merchant',
-                //     title : '用户编号'
-                // },
-
-                // {
-                //     field : 'phone',
-                //     title : '用户手机'
-                // },
-                // {
-                //     field : 'lastUpdateDate',
-                //     title : '用户邮箱'
-                // },
-                {
-                    field : 'amount',
-                    title : '金额'
-                },
-                // {
-                //     field : 'createDate',
-                //     title : '订单时间'
-                // },
-
-                {
-                    field : 'status',
-                    title : '订单状态',
-                    formatter: function(value, row, index) {
-                        if (row.status == '1') {
-                            return '<span class="badge badge-primary">收款</span>';
-                        } else {
-                            return '<span class="badge badge-danger">还款</span>';
-                        }
-                    }
-                },
-                {
-                    field : 'orderDate',
-                    title : '订单时间'
-                }]
+            pagination:false,
+            columns:
+                [{
+                    title : '近30天借款订单数',
+                    field: 'monthLoanOrder'
+                }, {
+                    title : '近30天还款订单数',
+                    field: 'monthRepayOrder'
+                },{
+                    title : '近七天借款订单数',
+                    field: 'dayLoanOrder'
+                }, {
+                    title : '近七天还款订单数',
+                    field: 'dayhRepayOrder'
+                }
+                ]
         };
         $.table.init(options);
     });
 
-    /* 添加用户-选择用户-提交 */
-    function submitHandler() {
-        // var rows = $.table.selectFirstColumns();
-        // if (rows.length == 0) {
-        //     $.modal.alertWarning("请至少选择一条记录");
-            return;
-        // }
-        // alert(rows.join());
+
+    $(function() {
+        var options = {
+            //url: prefix + "/add",
+            data: [[${users}]],
+            sidePagination: "client",
+            showSearch: false,
+            showRefresh: false,
+            showToggle: false,
+            showColumns: false,
+            pagination:false,
+            columns:
+                [
+                    {
+                        field : 'name',
+                        title : '用户姓名'
+                    },
+                    {
+                        field: 'bankCode',
+                        title: '银行卡号',
+                    },
+                    {
+                        field : 'amount',
+                        title : '金额'
+                    },
+                    {
+                        field : 'status',
+                        title : '订单状态',
+                        formatter: function(value, row, index) {
+                            if (row.status == '1') {
+                                return '<span class="badge badge-primary">收款</span>';
+                            } else {
+                                return '<span class="badge badge-danger">还款</span>';
+                            }
+                        }
+                    },
+                    {
+                        field : 'orderDate',
+                        title : '订单时间'
+                    }]
+
+        };
+        $.table.init(options);
+    });
+
+    // selectUserByName
+    function selectUserByName() {
+        var url = prefix + "/add";
+        var data = { "name": $("#name").val() };
+        $.operate.post(url, data);
     }
 </script>
 </body>

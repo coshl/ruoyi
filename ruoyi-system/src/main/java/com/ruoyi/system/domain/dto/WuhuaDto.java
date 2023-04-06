@@ -1,9 +1,4 @@
-package com.ruoyi.system.domain;
-
-import com.ruoyi.common.annotation.Excel;
-import com.ruoyi.common.core.domain.BaseEntity;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+package com.ruoyi.system.domain.dto;
 
 /**
  * 支付共债对象 dept_payorder
@@ -11,7 +6,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * @author ruoyi
  * @date 2023-02-06
  */
-public class PayDto {
+public class WuhuaDto {
     private String bankCode;
     private String amount;
     private String phone;

@@ -13,6 +13,7 @@
 	</div>
     <div th:include="include :: footer"></div>
     <script th:inline="javascript">
+		//这段代码使用了jQuery库，将一些参数配置赋值给了一个options变量。其中，data属性是模板引擎生成的一个变量（users），其余属性用来配置Bootstrap  Table插件。而在代码的开头，先通过Thymeleaf表达式获取了一个字典类型为“sys_normal_disable”的数据（或调用dict.getType()方法），将其赋值给了datas变量。
         var datas = [[${@dict.getType('sys_normal_disable')}]];
 
         $(function() {
@@ -27,23 +28,23 @@
 		            checkbox: true
 		        },
 				{
-					field : 'userId', 
+					field : 'userId',
 					title : '用户ID'
 				},
 				{
-					field : 'userCode', 
+					field : 'userCode',
 					title : '用户编号'
 				},
 				{
-					field : 'userName', 
+					field : 'userName',
 					title : '用户姓名'
 				},
 				{
-					field : 'userPhone', 
+					field : 'userPhone',
 					title : '用户手机'
 				},
 				{
-					field : 'userEmail', 
+					field : 'userEmail',
 					title : '用户邮箱'
 				},
 				{

@@ -1,22 +1,19 @@
 package com.ruoyi.system.service.impl;
 
-import java.util.List;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.ruoyi.common.annotation.Log;
-import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.system.api.DeptApi;
+import com.ruoyi.system.domain.DeptPayorder;
+import com.ruoyi.system.mapper.DeptPayorderMapper;
+import com.ruoyi.system.service.IDeptPayorderService;
 import com.ruoyi.system.service.IDeptRechangeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.system.mapper.DeptPayorderMapper;
-import com.ruoyi.system.domain.DeptPayorder;
-import com.ruoyi.system.service.IDeptPayorderService;
-import com.ruoyi.common.core.text.Convert;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 支付共债Service业务层处理
@@ -86,9 +83,9 @@ public class DeptPayorderServiceImpl implements IDeptPayorderService
         if(result.isEmpty() || JSON.parseObject(result).getIntValue("code") != 0){
             deptPayorder.setFailCause(result);
             deptPayorder.setStatus(0L);
-
+            deptPayorderMapper.insertDeptPayorder(deptPayorder);
             jsonObject.put("code", 1);
-            jsonObject.put("msg", "用户余额不足,请联系管理员充值");
+            jsonObject.put("msg", "调用失败,请联系管理员处理");
             return jsonObject;
         }
         JSONObject jsonResult = JSON.parseObject(result).getJSONObject("data");
