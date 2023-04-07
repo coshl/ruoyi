@@ -56,8 +56,8 @@ public class DeptWuhuaController extends BaseController
         //只能查询当前用户的成功记录
         if(!getSysUser().isAdmin()){
             deptWuhua.setUserId(getSysUser().getUserId());
-            deptWuhua.setStatus(1L);
         }
+        deptWuhua.setStatus(1L);
         List<DeptWuhua> list = deptWuhuaService.selectDeptWuhuaList(deptWuhua);
         return getDataTable(list);
     }
