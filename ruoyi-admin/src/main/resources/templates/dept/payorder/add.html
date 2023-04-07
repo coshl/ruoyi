@@ -13,29 +13,13 @@
                     <input type="text" name="name" id="name" />
                 </li>
                 <li>
-                    <a class="btn btn-primary btn-rounded btn-sm" onclick="selectUserByName() $.operate.post()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                    <!--<a class="btn btn-primary btn-rounded btn-sm" onclick="selectUserByName()"><i class="fa fa-search"></i>&nbsp;搜索</a>-->
+                    <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
                 </li>
             </ul>
         </div>
     </form>
 </div>
-<!--<div class="col-sm-12 search-collapse">
-    <h1 th:value="${monthLoanOrder}" th:text="${monthLoanOrder}">{{monthLoanOrder}}}</h1>
-<table border="2" height="20px">
-    <tr>
-        <td width="500px">近30天借款订单数</td>
-        <td width="300px" th:text="${monthLoanOrder}"></span></td>
-        <td width="500px">近30天还款订单数</td>
-        <td width="300px" th:text="${monthRepayOrder}"></td>
-    </tr>
-    <tr>
-        <td width="500px">近七天借款订单数</td>
-        <td width="300px" th:text="${dayLoanOrder}"></td>
-        <td width="500px">近七天还款订单数</td>
-        <td width="300px" th:text="${dayhRepayOrder}">80</td>
-    </tr>
-</table>
-</div>-->
 <div class="container-div">
     <div class="row">
         <div class="col-sm-12 select-table table-striped">
@@ -47,51 +31,24 @@
 <script th:inline="javascript">
     var prefix = ctx + "dept/payorder"
 
+
+    var datas = [[${@dict.getType('sys_normal_disable')}]];
+
+
+
     $(function() {
         var options = {
-            data: [[${payDto}]],
-            sidePagination: "client",
+            url: prefix + "/add",
             showSearch: false,
             showRefresh: false,
             showToggle: false,
             showColumns: false,
             pagination:false,
-            columns:
+            /*columns:
                 [{
-                    title : '近30天借款订单数',
-                    field: 'monthLoanOrder'
-                }, {
-                    title : '近30天还款订单数',
-                    field: 'monthRepayOrder'
-                },{
-                    title : '近七天借款订单数',
-                    field: 'dayLoanOrder'
-                }, {
-                    title : '近七天还款订单数',
-                    field: 'dayhRepayOrder'
-                }
-                ]
-        };
-        $.table.init(options);
-    });
-
-
-    $(function() {
-        var options = {
-            //url: prefix + "/add",
-            data: [[${users}]],
-            sidePagination: "client",
-            showSearch: false,
-            showRefresh: false,
-            showToggle: false,
-            showColumns: false,
-            pagination:false,
-            columns:
-                [
-                    {
-                        field : 'name',
-                        title : '用户姓名'
-                    },
+                    field : 'name',
+                    title : '用户姓名'
+                },
                     {
                         field: 'bankCode',
                         title: '银行卡号',
@@ -114,17 +71,25 @@
                     {
                         field : 'orderDate',
                         title : '订单时间'
-                    }]
+                    }]*/
 
         };
         $.table.init(options);
+
     });
 
     // selectUserByName
     function selectUserByName() {
+        $.table.search('formId','bootstrap-table');
+       // $.table.search('formId','bootstrap-table1');
+       /* var name = $("#name").val();
         var url = prefix + "/add";
-        var data = { "name": $("#name").val() };
-        $.operate.post(url, data);
+        var data = { "name": name };
+        $.operate.post(url, data);*/
+    }
+
+    function submitHandler() {
+        return
     }
 </script>
 </body>

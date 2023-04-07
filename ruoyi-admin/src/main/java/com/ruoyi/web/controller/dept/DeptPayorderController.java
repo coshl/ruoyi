@@ -19,7 +19,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -75,40 +74,21 @@ public class DeptPayorderController extends BaseController {
     @Log(title = "支付共债", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
-    public Serializable addSave(@NotNull(message = "查询姓名不能为空") String name,ModelMap mmap) throws JsonProcessingException {
+    public Serializable addSave(String name, ModelMap mmap) throws JsonProcessingException {
         List<PayOrderDto> list = new ArrayList<>();
         if(name.isEmpty()){
-            return  getDataTable(list);
+            return  AjaxResult.error("查询姓名不能为空");
         }
 
         JSONObject jsonObject = deptPayorderService.insertDeptPayorder(getSysUser().getUserId(),name);
         if (1 == jsonObject.getIntValue("code")) {
             return  AjaxResult.error(jsonObject.getString("msg"));
         }else {
-            JSONArray orderByName = jsonObject.getJSONObject("data").getJSONArray("orderByName");
-            list = orderByName.toJavaList(PayOrderDto.class);
-/** {"monthLoanOrder":2,"dayhRepayOrder":1,"monthRepayOrder":1,"dayLoanOrder":2,"orderByName":[{"bankCode":"6217858400021479364","amount":"3000.00","phone":"11111111111","lastUpdateDate":"2023-04-05 18:45:02","name":"閲戝摬宄?,"merchant":"閲戣嫻鏋?,"id":317588,"orderDate":"2023-04-05 18:43:50","createDate":"2023-04-05 18:45:02","status":"0"},{"bankCode":"","amount":"3000.00","phone":"1","lastUpdateDate":"2023-04-05 18:05:03","name":"閲戝摬宄?,"merchant":"閲戣嫻鏋?,"id":317439,"orderDate":"2023-04-05 18:04:36","createDate":"2023-04-05 18:05:03","status":"1"},{"bankCode":"6217858400021479364","amount":"1560.00","phone":"11111111111","lastUpdateDate":"2023-04-01 17:25:03","name":"閲戝摬宄?,"merchant":"閲戣嫻鏋?,"id":306901,"orderDate":"2023-04-01 17:22:11","createDate":"2023-04-01 17:25:03","status":"0"}]} */
+            return  AjaxResult.warn("正在生成报告，请稍后查看详细报告");
+            //JSONArray orderByName = jsonObject.getJSONObject("data").getJSONArray("orderByName");
+            //list = orderByName.toJavaList(PayOrderDto.class)
+            //return  getDataTable(list);
 
-            mmap.put("users", list);
-            JSONObject jsonData = jsonObject.getJSONObject("data");
-            /*jsonData.remove("orderByName");
-             // 创建ObjectMapper对象
-            ObjectMapper objectMapper = new ObjectMapper();
-             // 将JSON字符串转换为ModelMap对象
-            mmap = objectMapper.readValue(jsonData.toJSONString(), ModelMap.class);*/
-            PayOrderDto payOrderDto = new PayOrderDto();
-            payOrderDto.setMonthLoanOrder(jsonObject.getIntValue("monthLoanOrder"));
-            payOrderDto.setMonthRepayOrder(jsonObject.getIntValue("monthRepayOrder"));
-            payOrderDto.setDayhRepayOrder(jsonObject.getIntValue("dayhRepayOrder"));
-            payOrderDto.setDayLoanOrder(jsonObject.getIntValue("dayLoanOrder"));
-            List<PayOrderDto> payDtoList = new ArrayList<>();
-            payDtoList.add(payOrderDto);
-            mmap.put("payDto", payDtoList);
-            /*
-            list.add(payOrderDto);*/
-
-            //return getDataTable(list);
-            return prefix + "/add";
         }
 
     }
@@ -124,10 +104,14 @@ public class DeptPayorderController extends BaseController {
         JSONObject jsonObject = JSON.parseObject(deptPayorder.getReport());
         JSONArray orderByName = jsonObject.getJSONArray("orderByName");
         List<PayOrderDto> payDtos = orderByName.toJavaList(PayOrderDto.class);
-        mmap.put("monthLoanOrder", jsonObject.getInteger("monthLoanOrder"));
-        mmap.put("dayhRepayOrder", jsonObject.getInteger("dayhRepayOrder"));
-        mmap.put("monthRepayOrder", jsonObject.getInteger("monthRepayOrder"));
-        mmap.put("dayLoanOrder", jsonObject.getInteger("dayLoanOrder"));
+        PayOrderDto payOrderDto = new PayOrderDto();
+        payOrderDto.setMonthLoanOrder(jsonObject.getIntValue("monthLoanOrder"));
+        payOrderDto.setMonthRepayOrder(jsonObject.getIntValue("monthRepayOrder"));
+        payOrderDto.setDayhRepayOrder(jsonObject.getIntValue("dayhRepayOrder"));
+        payOrderDto.setDayLoanOrder(jsonObject.getIntValue("dayLoanOrder"));
+        List<PayOrderDto> payDtoList = new ArrayList<>();
+        payDtoList.add(payOrderDto);
+        mmap.put("payDtoList", payDtoList);
         mmap.put("payDto", payDtos);
 
         /**

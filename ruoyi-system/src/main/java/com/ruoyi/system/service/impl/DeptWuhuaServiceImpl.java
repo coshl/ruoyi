@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.TreeMap;
 
@@ -26,7 +27,7 @@ import java.util.TreeMap;
 @Slf4j
 public class DeptWuhuaServiceImpl implements IDeptWuhuaService
 {
-    @Autowired
+    @Resource
     private DeptWuhuaMapper deptWuhuaMapper;
 
     @Autowired
@@ -75,7 +76,9 @@ public class DeptWuhuaServiceImpl implements IDeptWuhuaService
         }
 
         DeptWuhua deptWuhua  = new DeptWuhua();
-        deptWuhua.setDeptParam(user.toString());
+        deptWuhua.setDeptName(user.get("name").toString());
+        deptWuhua.setDeptCard(user.get("idCard").toString());
+        deptWuhua.setDeptMobile(user.get("mobile").toString());
         deptWuhua.setUserId(userId);
         deptWuhua.setCreateTime(DateUtils.getNowDate());
         deptWuhua.setStatus(0L);

@@ -7,7 +7,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <resultMap type="DeptWuhua" id="DeptWuhuaResult">
         <result property="id"    column="id"    />
         <result property="userId"    column="user_id"    />
-        <result property="deptParam"    column="dept_param"    />
+        <result property="deptName"    column="dept_name"    />
+        <result property="deptMobile"    column="dept_mobile"    />
+        <result property="deptCard"    column="dept_card"    />
         <result property="status"    column="status"    />
         <result property="failCause"    column="fail_cause"    />
         <result property="report"    column="report"    />
@@ -16,30 +18,35 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectDeptWuhuaVo">
-        select id, user_id, dept_param, status, fail_cause, report, create_time, update_time from dept_wuhua
+        select id, user_id, dept_name,dept_mobile, dept_card, status, fail_cause, report, create_time, update_time from dept_wuhua
     </sql>
 
     <select id="selectDeptWuhuaList" parameterType="DeptWuhua" resultMap="DeptWuhuaResult">
         <include refid="selectDeptWuhuaVo"/>
-        <where>  
+        <where>
             <if test="userId != null "> and user_id = #{userId}</if>
-            <if test="deptParam != null  and deptParam != ''"> and dept_param = #{deptParam}</if>
+            <if test="deptName != null  and deptName != ''"> and dept_name = #{deptName}</if>
+            <if test="deptMobile != null  and deptMobile != ''"> and dept_mobile = #{deptMobile}</if>
+            <if test="deptCard != null  and deptCard != ''"> and dept_card = #{deptCard}</if>
             <if test="status != null "> and status = #{status}</if>
             <if test="failCause != null  and failCause != ''"> and fail_cause = #{failCause}</if>
             <if test="report != null  and report != ''"> and report = #{report}</if>
         </where>
+        ORDER BY id desc
     </select>
     
     <select id="selectDeptWuhuaById" parameterType="Long" resultMap="DeptWuhuaResult">
         <include refid="selectDeptWuhuaVo"/>
         where id = #{id}
     </select>
-        
+    
     <insert id="insertDeptWuhua" parameterType="DeptWuhua" useGeneratedKeys="true" keyProperty="id">
         insert into dept_wuhua
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="userId != null">user_id,</if>
-            <if test="deptParam != null">dept_param,</if>
+            <if test="deptName != null">dept_name,</if>
+            <if test="deptMobile != null">dept_mobile,</if>
+            <if test="deptCard != null">dept_card,</if>
             <if test="status != null">status,</if>
             <if test="failCause != null">fail_cause,</if>
             <if test="report != null">report,</if>
@@ -48,7 +55,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="userId != null">#{userId},</if>
-            <if test="deptParam != null">#{deptParam},</if>
+            <if test="deptName != null">#{deptName},</if>
+            <if test="deptMobile != null">#{deptMobile},</if>
+            <if test="deptCard != null">#{deptCard},</if>
             <if test="status != null">#{status},</if>
             <if test="failCause != null">#{failCause},</if>
             <if test="report != null">#{report},</if>
@@ -61,7 +70,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         update dept_wuhua
         <trim prefix="SET" suffixOverrides=",">
             <if test="userId != null">user_id = #{userId},</if>
-            <if test="deptParam != null">dept_param = #{deptParam},</if>
+            <if test="deptName != null"> and dept_name = #{deptName}</if>
+            <if test="deptMobile != null"> and dept_mobile = #{deptMobile}</if>
+            <if test="deptCard != null"> and dept_card = #{deptCard}</if>
             <if test="status != null">status = #{status},</if>
             <if test="failCause != null">fail_cause = #{failCause},</if>
             <if test="report != null">report = #{report},</if>
@@ -76,7 +87,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteDeptWuhuaByIds" parameterType="String">
-        delete from dept_wuhua where id in 
+        delete from dept_wuhua where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

@@ -47,20 +47,25 @@
                 removeUrl: prefix + "/remove",
                 exportUrl: prefix + "/export",
                 modalName: "支付共债",
-                columns: [{
-                    checkbox: true
-                },
+                columns: [
                 {
                     field: 'id',
-                    title: '序号',
+                    title: 'id',
+                    visible: false
                 },
+                    {
+                        title: "序号",
+                        formatter: function (value, row, index) {
+                            return $.table.serialNumber(index);
+                        }
+                    },
                 {
                     field: 'deptName',
                     title: '共债姓名'
                 },
                     {
                         field: 'createTime',
-                        title: '时间'
+                        title: '创建时间'
                     },
                 {
                     title: '操作',

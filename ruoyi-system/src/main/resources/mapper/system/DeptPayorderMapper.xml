@@ -21,20 +21,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectDeptPayorderList" parameterType="DeptPayorder" resultMap="DeptPayorderResult">
         <include refid="selectDeptPayorderVo"/>
-        <where>  
+        <where>
             <if test="userId != null "> and user_id = #{userId}</if>
             <if test="deptName != null  and deptName != ''"> and dept_name like concat('%', #{deptName}, '%')</if>
             <if test="status != null "> and status = #{status}</if>
             <if test="failCause != null  and failCause != ''"> and fail_cause = #{failCause}</if>
             <if test="report != null  and report != ''"> and report = #{report}</if>
         </where>
+        ORDER BY id desc
     </select>
     
     <select id="selectDeptPayorderById" parameterType="Long" resultMap="DeptPayorderResult">
         <include refid="selectDeptPayorderVo"/>
         where id = #{id}
     </select>
-        
+    
     <insert id="insertDeptPayorder" parameterType="DeptPayorder" useGeneratedKeys="true" keyProperty="id">
         insert into dept_payorder
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -76,7 +77,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteDeptPayorderByIds" parameterType="String">
-        delete from dept_payorder where id in 
+        delete from dept_payorder where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

@@ -1,75 +1,107 @@
 <!DOCTYPE html>
-<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <th:block th:include="include :: header('修改支付共债')"/>
 </head>
-<body class="white-bg">
-<div class="col-sm-12 search-collapse">
-    <table border="2" height="20px">
-        <tr>
-            <td width="500px">近30天借款订单数</td>
-            <td width="300px" th:text="${monthLoanOrder}"></span></td>
-            <td width="500px">近30天还款订单数</td>
-            <td width="300px" th:text="${monthRepayOrder}"></td>
-        </tr>
-        <tr >
-            <td width="500px">近七天借款订单数</td>
-            <td width="300px" th:text="${dayLoanOrder}"></td>
-            <td width="500px">近七天还款订单数</td>
-            <td width="300px" th:text="${dayhRepayOrder}">80</td>
-        </tr>
-    </table>
+<body class="gray-bg">
+<div class="container-div">
+    <div class="row">
+        <div class="col-sm-12 select-table ">
+            <table id="bootstrap-table1"></table>
+        </div>
+        <div class="col-sm-12 select-table table-striped">
+            <table id="bootstrap-table"></table>
+        </div>
+    </div>
 </div>
-<div class="col-sm-12 search-collapse">
-    <table id="bootstrap-table" class="table table-bordered table-hover">
-        <thead class="">
-        <tr>
-            <th>
-                <div class="th-inner ">用户姓名</div>
-                <div class="fht-cell"></div>
-            </th>
-            <th >
-                <div class="th-inner ">银行卡号</div>
-                <div class="fht-cell"></div>
-            </th>
-            <th >
-                <div class="th-inner ">金额</div>
-                <div class="fht-cell"></div>
-            </th>
-            <th >
-                <div class="th-inner ">订单状态</div>
-                <div class="fht-cell"></div>
-            </th>
-            <th >
-                <div class="th-inner ">订单时间</div>
-                <div class="fht-cell"></div>
-            </th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr data-index="0" th:each="pay,index:${payDto}">
-            <td th:text="${pay.name}"></td>
-            <td th:text="${pay.bankCode}"></td>
-            <td th:text="${pay.amount}"></td>
-            <td th:text="${pay.status=='1'?'收款':'还款'}"></td>
-            <td th:text="${pay.orderDate}"></td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-<th:block th:include="include :: footer"/>
+<div th:include="include :: footer"></div>
+
 <script th:inline="javascript">
     var prefix = ctx + "dept/payorder";
     $("#form-payorder-edit").validate({
         focusCleanup: true
     });
 
-    function submitHandler() {
-        return
-        // if ($.validate.form()) {
-        //     $.operate.save(prefix + "/edit", $('#form-payorder-edit').serialize());
-        // }
-    }
+    var datas = [[${@dict.getType('sys_normal_disable')}]];
+
+
+
+    $(function() {
+        var options = {
+            id: "bootstrap-table",
+            data: [[${payDto}]],
+            sidePagination: "client",
+            showSearch: false,
+            showRefresh: false,
+            showToggle: false,
+            showColumns: false,
+            pagination:false,
+            columns:
+                [{
+                field : 'name',
+                title : '用户姓名'
+            },
+                {
+                    field: 'bankCode',
+                    title: '银行卡号',
+                },
+                {
+                    field : 'amount',
+                    title : '金额'
+                },
+                {
+                    field : 'status',
+                    title : '订单状态',
+                    formatter: function(value, row, index) {
+                        if (row.status == '1') {
+                            return '<span class="badge badge-primary">收款</span>';
+                        } else {
+                            return '<span class="badge badge-danger">还款</span>';
+                        }
+                    }
+                },
+                {
+                    field : 'orderDate',
+                    title : '订单时间'
+                }]
+
+        };
+
+        var options2 = {
+            id : "bootstrap-table1",
+            data: [[${payDtoList}]],
+            sidePagination: "client",
+            showSearch: false,
+            showRefresh: false,
+            showToggle: false,
+            showColumns: false,
+            pagination:false,
+            columns:
+                [{
+                    field : 'monthLoanOrder',
+                    title : '近30天借款订单数'
+                },
+                    {
+                        field: 'monthRepayOrder',
+                        title: '近30天还款订单数',
+                    },
+                    {
+                        field: 'dayLoanOrder',
+                        title: '近七天借款订单数',
+                    },
+                    {
+                        field : 'dayhRepayOrder',
+                        title : '近七天还款订单数'
+                    }]
+
+        };
+
+
+        $.table.init(options);
+
+        $.table.init(options2);
+    });
+
 </script>
 </body>
 </html>
