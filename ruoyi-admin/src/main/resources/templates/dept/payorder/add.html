@@ -84,41 +84,41 @@
     function submitHandler() {
         if ($.validate.form()) {
             $.operate.save(prefix + "/add", $('#formId').serialize());
-            var data = $('#formId').serializeArray()
-            $.ajax({
-                type: "POST", //提交方式
-                url: prefix + "/list",
-                async: false,  // 重点，false是同步，true是异步
-                dataType: 'json',  // 需要写上
-                data: {
-                    name: data[0].value
-                    // deptCard: data[2].value()
-                },
-
-                success: function (result) {
-                    if(result.code==0){
-                        console.log(result.rows[0].id)
-                        var aa = "/edit/" + result.rows[0].id;
-                        $.ajax({
-                            type: "GET", //提交方式
-                            url: prefix + aa,
-                            data: "",
-                            success: function (result) {
-                                window.location.href='about:blank';
-                                document.write(result);
-                                // jquery()
-                                // $(document.body).html(result);
-                                // console.log(result)  // 打印出返回的值
-                                // alert(result)
-                                // if(result.code==0){
-                                //     console.log(result.rows[0].id)
-                                // }
-                            }
-                        })
-
-                    }
-                }
-            })
+            // var data = $('#formId').serializeArray()
+            // $.ajax({
+            //     type: "POST", //提交方式
+            //     url: prefix + "/list",
+            //     async: false,  // 重点，false是同步，true是异步
+            //     dataType: 'json',  // 需要写上
+            //     data: {
+            //         name: data[0].value
+            //         // deptCard: data[2].value()
+            //     },
+            //
+            //     success: function (result) {
+            //         if(result.code==0){
+            //             console.log(result.rows[0].id)
+            //             var aa = "/edit/" + result.rows[0].id;
+            //             $.ajax({
+            //                 type: "GET", //提交方式
+            //                 url: prefix + aa,
+            //                 data: "",
+            //                 success: function (result) {
+            //                     window.location.href='about:blank';
+            //                     document.write(result);
+            //                     // jquery()
+            //                     // $(document.body).html(result);
+            //                     // console.log(result)  // 打印出返回的值
+            //                     // alert(result)
+            //                     // if(result.code==0){
+            //                     //     console.log(result.rows[0].id)
+            //                     // }
+            //                 }
+            //             })
+            //
+            //         }
+            //     }
+            // })
         }
     }
 </script>

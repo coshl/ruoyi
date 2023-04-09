@@ -37,7 +37,7 @@ public interface DeptWuhuaMapper
     public int insertDeptWuhua(DeptWuhua deptWuhua);
 
     /**
-     * 五花共债
+     * 修改五花共债
      *
      * @param deptWuhua 五花共债
      * @return 结果
