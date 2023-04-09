@@ -106,4 +106,8 @@ public class DeptPayorder extends BaseEntity
             .append("updateTime", getUpdateTime())
             .toString();
     }
+
+    public static void main(String[] args) {
+
+    }
 }
