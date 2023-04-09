@@ -96,7 +96,7 @@ public class DeptWuhuaController extends BaseController
              rspData.setTotal(new PageInfo(list).getTotal()); */
             //return success(jsonObject.getJSONObject("result"));
 //            return  AjaxResult.warn("正在生成报告，请稍后查看详细报告");
-            return toAjax(1);
+            return toAjax(18);
         }
 
     }

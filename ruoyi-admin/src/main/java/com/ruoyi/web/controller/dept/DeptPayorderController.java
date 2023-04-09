@@ -84,7 +84,8 @@ public class DeptPayorderController extends BaseController {
         if (1 == jsonObject.getIntValue("code")) {
             return  AjaxResult.error(jsonObject.getString("msg"));
         }else {
-            return  AjaxResult.warn("正在生成报告，请稍后查看详细报告");
+            return toAjax(1);
+            //return  AjaxResult.warn("正在生成报告，请稍后查看详细报告");
             //JSONArray orderByName = jsonObject.getJSONObject("data").getJSONArray("orderByName");
             //list = orderByName.toJavaList(PayOrderDto.class)
             //return  getDataTable(list);

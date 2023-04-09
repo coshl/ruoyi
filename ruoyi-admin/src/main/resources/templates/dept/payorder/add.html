@@ -3,40 +3,29 @@
 <head>
     <th:block th:include="include :: header('check表格页')" />
 </head>
-<body class="gray-bg">
-<div class="col-sm-12 search-collapse">
-    <form id="formId">
-        <div class="select-list" >
-            <ul>
-                <li>
-                    <label>共债姓名</label>
-                    <input type="text" name="name" id="name" />
-                </li>
-                <li>
-                    <!--<a class="btn btn-primary btn-rounded btn-sm" onclick="selectUserByName()"><i class="fa fa-search"></i>&nbsp;搜索</a>-->
-                    <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
-                </li>
-            </ul>
+<body class="white-bg">
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+    <form class="form-horizontal m" id="formId">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">共债姓名：</label>
+            <div class="col-sm-8">
+                <input name="name" class="form-control" type="text">
+            </div>
         </div>
     </form>
 </div>
-<div class="container-div">
+<!--<div class="container-div">
     <div class="row">
         <div class="col-sm-12 select-table table-striped">
             <table id="bootstrap-table"></table>
         </div>
     </div>
-</div>
+</div>-->
 <div th:include="include :: footer"></div>
 <script th:inline="javascript">
     var prefix = ctx + "dept/payorder"
 
-
-    var datas = [[${@dict.getType('sys_normal_disable')}]];
-
-
-
-    $(function() {
+   /* $(function() {
         var options = {
             url: prefix + "/add",
             showSearch: false,
@@ -44,7 +33,7 @@
             showToggle: false,
             showColumns: false,
             pagination:false,
-            /*columns:
+            /!*columns:
                 [{
                     field : 'name',
                     title : '用户姓名'
@@ -71,25 +60,66 @@
                     {
                         field : 'orderDate',
                         title : '订单时间'
-                    }]*/
+                    }]*!/
 
         };
         $.table.init(options);
 
-    });
+    });*/
 
     // selectUserByName
-    function selectUserByName() {
+    /*function selectUserByName() {
         $.table.search('formId','bootstrap-table');
        // $.table.search('formId','bootstrap-table1');
-       /* var name = $("#name").val();
+       /!* var name = $("#name").val();
         var url = prefix + "/add";
         var data = { "name": name };
-        $.operate.post(url, data);*/
-    }
+        $.operate.post(url, data);*!/
+    }*/
+
+    $("#formId").validate({
+        focusCleanup: true
+    });
 
     function submitHandler() {
-        return
+        if ($.validate.form()) {
+            $.operate.save(prefix + "/add", $('#formId').serialize());
+            var data = $('#formId').serializeArray()
+            $.ajax({
+                type: "POST", //提交方式
+                url: prefix + "/list",
+                async: false,  // 重点，false是同步，true是异步
+                dataType: 'json',  // 需要写上
+                data: {
+                    name: data[0].value
+                    // deptCard: data[2].value()
+                },
+
+                success: function (result) {
+                    if(result.code==0){
+                        console.log(result.rows[0].id)
+                        var aa = "/edit/" + result.rows[0].id;
+                        $.ajax({
+                            type: "GET", //提交方式
+                            url: prefix + aa,
+                            data: "",
+                            success: function (result) {
+                                window.location.href='about:blank';
+                                document.write(result);
+                                // jquery()
+                                // $(document.body).html(result);
+                                // console.log(result)  // 打印出返回的值
+                                // alert(result)
+                                // if(result.code==0){
+                                //     console.log(result.rows[0].id)
+                                // }
+                            }
+                        })
+
+                    }
+                }
+            })
+        }
     }
 </script>
 </body>
