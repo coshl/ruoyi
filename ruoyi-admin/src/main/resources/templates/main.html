@@ -13,8 +13,8 @@
 
 <body class="gray-bg">
     <div class="wrapper wrapper-content">
-
-        <div class="row">
+        <h1>欢迎使用聚光系统</h1>
+        <!--<div class="row">
             <div class="col-sm-3">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
@@ -72,7 +72,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="row">
             <div class="col-sm-12">
                 <div class="ibox float-e-margins">
@@ -129,7 +129,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="row">
             <div class="col-sm-12">
                 <div class="ibox float-e-margins">
@@ -209,13 +209,13 @@
                     </div>
                 </div>
             </div>
-         </div>
+         </div>-->
       </div>
     </div>
     <script th:src="@{/js/jquery.min.js}"></script>
     <script th:src="@{/js/bootstrap.min.js}"></script>
     <script th:src="@{/ajax/libs/flot/jquery.flot.js}"></script>
-    
+
     <th:block th:include="include :: sparkline-js" />
     <script type="text/javascript">
 	    $(document).ready(function () {
@@ -229,7 +229,7 @@
 	            [gd(2012, 1, 25), 7], [gd(2012, 1, 26), 9], [gd(2012, 1, 27), 9], [gd(2012, 1, 28), 8],
 	            [gd(2012, 1, 29), 5], [gd(2012, 1, 30), 8], [gd(2012, 1, 31), 25]
 	        ];
-	
+
 	        var data3 = [
 	            [gd(2012, 1, 1), 800], [gd(2012, 1, 2), 500], [gd(2012, 1, 3), 600], [gd(2012, 1, 4), 700],
 	            [gd(2012, 1, 5), 500], [gd(2012, 1, 6), 456], [gd(2012, 1, 7), 800], [gd(2012, 1, 8), 589],
@@ -240,8 +240,8 @@
 	            [gd(2012, 1, 25), 786], [gd(2012, 1, 26), 666], [gd(2012, 1, 27), 888], [gd(2012, 1, 28), 900],
 	            [gd(2012, 1, 29), 178], [gd(2012, 1, 30), 555], [gd(2012, 1, 31), 993]
 	        ];
-	
-	
+
+
 	        var dataset = [
 	            {
 	                label: "订单数",
@@ -253,7 +253,7 @@
 	                    barWidth: 24 * 60 * 60 * 600,
 	                    lineWidth: 0
 	                }
-	
+
 	            }, {
 	                label: "付款数",
 	                data: data2,
@@ -279,8 +279,8 @@
 	                },
 	            }
 	        ];
-	
-	
+
+
 	        var options = {
 	            xaxis: {
 	                mode: "time",
@@ -321,14 +321,14 @@
 	                color: '#838383'
 	            }
 	        };
-	
+
 	        function gd(year, month, day) {
 	            return new Date(year, month - 1, day).getTime();
 	        }
-	
+
 	        var previousPoint = null,
 	            previousLabel = null;
-	
+
 	        $.plot($("#flot-dashboard-chart"), dataset, options);
 	    });
     </script>

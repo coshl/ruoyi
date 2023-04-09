@@ -38,7 +38,7 @@ public interface IDeptWuhuaService
     public JSONObject insertDeptWuhua(Long userId , TreeMap user);
 
     /**
-     * 修改五花共债
+     * 五花共债
      *
      * @param deptWuhua 五花共债
      * @return 结果
