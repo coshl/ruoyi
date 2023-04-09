@@ -35,7 +35,7 @@ public  static  String getRadar(TreeMap map){
             execute().
             body();
     //System.out.println("getRadar==========="+result);
-    log.info("getRadar==========="+result);
+    //log.info("getRadar==========="+result);
     return result;
 
 }

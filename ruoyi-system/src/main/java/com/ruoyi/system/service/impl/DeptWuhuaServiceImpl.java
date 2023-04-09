@@ -84,7 +84,7 @@ public class DeptWuhuaServiceImpl implements IDeptWuhuaService
         deptWuhua.setStatus(0L);
 
         String result = WuhuaApi.getRadar(user);
-        log.info("result==================="+result);
+        //log.info("result==================="+result);
 
         JSONObject jsonResult = JSONUtil.parseObj(result);
         if(jsonResult.containsKey("code") && jsonResult.getInt("code") == 200) {
