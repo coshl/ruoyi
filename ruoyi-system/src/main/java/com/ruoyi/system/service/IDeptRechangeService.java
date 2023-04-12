@@ -1,9 +1,8 @@
 package com.ruoyi.system.service;
 
-import java.util.List;
 import com.ruoyi.system.domain.DeptRechange;
-import org.apache.poi.hpsf.Decimal;
-import org.springframework.scheduling.annotation.Async;
+
+import java.util.List;
 
 /**
  * 公债充值Service接口
@@ -23,6 +22,8 @@ public interface IDeptRechangeService
 
     public void insertBilling(Long userId, String configKey);
 
+
+    public Long selectSumDeptRechange(DeptRechange deptRechange);
 
     /**
      * 查询公债充值

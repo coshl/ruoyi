@@ -1,16 +1,15 @@
 package com.ruoyi.system.service.impl;
 
-import java.util.List;
-
+import com.ruoyi.common.core.text.Convert;
+import com.ruoyi.system.domain.DeptRechange;
+import com.ruoyi.system.mapper.DeptRechangeMapper;
+import com.ruoyi.system.service.IDeptRechangeService;
 import com.ruoyi.system.service.ISysConfigService;
-import org.apache.poi.hpsf.Decimal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import com.ruoyi.system.mapper.DeptRechangeMapper;
-import com.ruoyi.system.domain.DeptRechange;
-import com.ruoyi.system.service.IDeptRechangeService;
-import com.ruoyi.common.core.text.Convert;
+
+import java.util.List;
 
 /**
  * 公债充值Service业务层处理
@@ -33,7 +32,6 @@ public class DeptRechangeServiceImpl implements IDeptRechangeService
     @Override
     public Long selectBalance(Long userId)
     {
-        //Long balance = deptRechangeMapper.selectDeptBilling(userId);
        return deptRechangeMapper.selectDeptBilling(userId);
     }
 
@@ -46,6 +44,11 @@ public class DeptRechangeServiceImpl implements IDeptRechangeService
     {
         String price = configService.selectConfigByKey(configKey);
         deptRechangeMapper.insertSysUserBilling(userId, Long.valueOf(price));
+    }
+
+    @Override
+    public Long selectSumDeptRechange(DeptRechange deptRechange) {
+        return deptRechangeMapper.selectSumDeptRechange(deptRechange);
     }
 
     /**

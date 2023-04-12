@@ -14,6 +14,38 @@
 <body class="gray-bg">
     <div class="wrapper wrapper-content">
         <h1>欢迎使用聚光系统</h1>
+
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <span class="label label-success pull-left">账号余额</span>
+                    </div>
+                    <div class="ibox-content">
+                        <h1 class="no-margins" th:text="${billing}"></h1>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-3">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <div th:if="${not isAdmin}">
+                            <!-- 隐藏的内容 -->
+                            <span class="label label-success pull-left">总充值金额</span>
+                        </div>
+                        <div th:if="${isAdmin}">
+                            <span class="label label-success pull-left">所有商户总充值金额</span>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <h1 class="no-margins" th:text="${sumMoney}"></h1>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
         <!--<div class="row">
             <div class="col-sm-3">
                 <div class="ibox float-e-margins">

@@ -25,6 +25,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             (SELECT ((SELECT sum(rechange_amount) FROM dept_rechange WHERE user_id = #{id})  - (SELECT api_amount FROM sys_user WHERE user_id = #{id}) ) as money) AS a
     </select>
     
+    <select id="selectSumDeptRechange" parameterType="DeptRechange" resultType="java.lang.Long">
+        SELECT sum(rechange_amount) FROM dept_rechange
+        <where>
+            <if test="userId != null "> and user_id = #{userId}</if>
+        </where>
+    </select>
+    
     <update id="insertSysUserBilling" >
         UPDATE sys_user set api_amount = api_amount + #{price} WHERE user_id = #{id}
     </update>
@@ -37,6 +44,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="rechangeAmount != null "> and rechange_amount = #{rechangeAmount}</if>
             <if test="rechangeDate != null "> and rechange_date = #{rechangeDate}</if>
         </where>
+        ORDER BY id desc
     </select>
     
     <select id="selectDeptRechangeById" parameterType="Long" resultMap="DeptRechangeResult">

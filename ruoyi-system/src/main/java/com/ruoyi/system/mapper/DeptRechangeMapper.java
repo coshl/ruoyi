@@ -1,8 +1,9 @@
 package com.ruoyi.system.mapper;
 
-import java.util.List;
 import com.ruoyi.system.domain.DeptRechange;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 公债充值Mapper接口
@@ -18,6 +19,10 @@ public interface DeptRechangeMapper
      */
     Long selectDeptBilling(Long id);
 
+    /**
+     * 查询计费
+     */
+    Long selectSumDeptRechange(DeptRechange deptRechange);
     /**
      * 查询计费
      */
