@@ -19,7 +19,13 @@
             <div class="col-sm-3">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <span class="label label-success pull-left">账号余额</span>
+                        <div th:if="${billing > 100}">
+                            <span class="label label-success pull-left">账号余额</span>
+                        </div>
+
+                        <div th:if="${billing < 100}">
+                            <span class="label label-danger pull-left">账号余额不足,请及时充值</span>
+                        </div>
                     </div>
                     <div class="ibox-content">
                         <h1 class="no-margins" th:text="${billing}"></h1>
