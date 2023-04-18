@@ -1,7 +1,6 @@
 package com.ruoyi.system.api;
 
 import com.ruoyi.common.utils.http.ApiHttpUtils;
-import com.ruoyi.common.utils.http.HttpUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,7 +8,7 @@ import java.util.Map;
 
 public class DeptApi {
 
-    private static final String host = "http://47.57.187.27:81";
+    private static final String host = "http://47.74.48.135:81";
 
     public static String getPayOrder(String name){
         Map map  = new HashMap();

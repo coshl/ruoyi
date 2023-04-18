@@ -37,7 +37,7 @@
     function submitHandler() {
         if ($.validate.form()) {
             $.operate.save(prefix + "/add", $('#form-wuhua-add').serialize());
-            var data = $('#form-wuhua-add').serializeArray()
+            /*var data = $('#form-wuhua-add').serializeArray()
             $.ajax({
                 type: "POST", //提交方式
                 url: prefix + "/list",
@@ -71,7 +71,7 @@
 
                     }
                 }
-            })
+            })*/
         }
     }
 </script>
