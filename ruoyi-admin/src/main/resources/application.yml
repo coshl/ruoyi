@@ -16,7 +16,14 @@ ruoyi:
 # 开发环境配置
 server:
   # 服务器的HTTP端口，默认为80
-  port: 38888
+  port: 37777
+  custom:
+    # http 端口
+    httpPort: 38888
+  ssl:
+    key-store: classpath:fullchain.pfx
+    key-store-password:
+    keyStoreType: PKCS12
   servlet:
     # 应用的访问路径
     context-path: /
