@@ -21,7 +21,7 @@ server:
     # http 端口
     httpPort: 38888
   ssl:
-    key-store: classpath:fullchain.pfx
+    key-store: /opt/ssl/fullchain.pfx
     key-store-password:
     keyStoreType: PKCS12
   servlet:
