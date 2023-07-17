@@ -22,7 +22,7 @@ server:
     httpPort: 38888
   ssl:
     key-store: /opt/ssl/fullchain.pfx
-    key-store-password:
+    key-store-password: /opt/ssl/password.txt
     keyStoreType: PKCS12
   servlet:
     # 应用的访问路径
