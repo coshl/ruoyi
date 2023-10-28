@@ -1,5 +1,10 @@
 package com.ruoyi.web.core.config;
 
+import org.apache.catalina.connector.Connector;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
+import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -7,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
  **/
 @Configuration
 public class HttpConfig {
-   /* @Value("${server.custom.httpPort}")
+    @Value("${server.custom.httpPort}")
     private Integer httpPort;
 
 
@@ -18,6 +23,6 @@ public class HttpConfig {
         connector.setPort(httpPort);
         tomcat.addAdditionalTomcatConnectors(connector);
         return tomcat;
-    }*/
+    }
 
 }
