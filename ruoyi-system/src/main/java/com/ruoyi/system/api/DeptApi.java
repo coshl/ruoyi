@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class DeptApi {
 
-    private static final String host = "http://47.74.48.135:81";
+    private static final String host = "http://13.229.198.5:81";
 
     public static String getPayOrder(String name){
         Map map  = new HashMap();

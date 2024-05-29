@@ -6,9 +6,13 @@ spring:
         druid:
             # 主库数据源
             master:
-                url: jdbc:mysql://rm-j6cw6drz64u4y5xf9bo.mysql.rds.aliyuncs.com:3306/billing?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+                url: jdbc:mysql://rm-3ns8rfdauv4e5ru640o.mysql.rds.aliyuncs.com:3306/billing?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
                 username: root
-                password: Qdsdff23224#@R!s$#
+                password: 6vAH58!@9tWTCPZ
+#            master:
+#                url: jdbc:mysql://127.0.0.1:3306/billing?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+#                username: root
+#                password: root
             # 从库数据源
             slave:
                 # 从数据源开关/默认关闭
